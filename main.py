@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil import parser
+i
 
 assignments = []
 
@@ -15,6 +16,28 @@ soup = BeautifulSoup(open(export_file_path, encoding='utf8').read(), 'html.parse
 table = soup.find("tbody")
 table_rows = table.findChildren("tr")
 
+#HELPERS
+def create_assignment_element(assignment):
+    pass
+
+#Note: Partition should be an array with a length of at least 2
+def quicksort(partition):
+    pivot = len(partition) - 1
+    lo = 0
+    hi = pivot - 1
+
+    while lo < hi:
+        if (partition[lo] > partition[hi]):
+            part_lo = partition[lo] #temp partition lo variable
+            partition[lo] = partition[hi]
+            partition[hi] = part_lo
+        lo += 1
+        hi -= 1
+    pivot = lo #can be set to either lo or hi
+    return quicksort(partition[0:pivot+1]) partition[pivot+1:len(partition)]]
+
+#--------------------------------------------------------------------------
+
 #Collect all the assignments and store them as dictionaries in array
 for row in table_rows:
     assignments.append({
@@ -24,11 +47,22 @@ for row in table_rows:
         "type": row.find("td", {"class": type_class}).find("span").text
     })
 
-#Sort the assignments in the array by due date
-assn_due_no_at = assignments[0]['due_date'].split("@")[1]
-assn_due_chunked = assn_due_no_at.split(" ")
-due_date = (assn_due_chunked[0] + " " + assn_due_chunked[1] + " " + assn_due_chunked[2] + " " + assn_due_chunked[3] + assn_due_chunked[4])
-print(parser.parse(due_date))
+#Convert the assignment's date to datetime objects for comparison
+for assn in assignments:
+    assn_due_no_at = assn['due_date'].split("@")[1]
+    assn_due_chunked = assn_due_no_at.split(" ")
+    due_date = None
+    if 'AM' in assn_due_chunked or 'PM' in assn_due_chunked:
+        due_date = (assn_due_chunked[0] + " " + assn_due_chunked[1] + " " + assn_due_chunked[2] + " " + assn_due_chunked[3] + assn_due_chunked[4])
+    else:
+         due_date = (assn_due_chunked[0] + " " + assn_due_chunked[1] + " " + assn_due_chunked[2])
+    assn['due_date'] = parser.parse(due_date)
 
-def create_assignment_element(assignment):
+#Sort the assignment array based on due date comparison (Using Quicksort Algorithm)
+sorted_assns = []
+for assn in assignments:
     pass
+
+
+
+print(quicksort([5, 2, 0, 6, 1, 3]))
