@@ -1,8 +1,7 @@
+from asyncio.windows_events import INFINITE
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil import parser
-i
-
 assignments = []
 
 name_class = "cell-title"
@@ -20,21 +19,20 @@ table_rows = table.findChildren("tr")
 def create_assignment_element(assignment):
     pass
 
-#Note: Partition should be an array with a length of at least 2
-def quicksort(partition):
-    pivot = len(partition) - 1
-    lo = 0
-    hi = pivot - 1
 
-    while lo < hi:
-        if (partition[lo] > partition[hi]):
-            part_lo = partition[lo] #temp partition lo variable
-            partition[lo] = partition[hi]
-            partition[hi] = part_lo
-        lo += 1
-        hi -= 1
-    pivot = lo #can be set to either lo or hi
-    return quicksort(partition[0:pivot+1]) partition[pivot+1:len(partition)]]
+#Note: array must have a length of at least 2
+def selection_sort(array):
+    for i in range(len(array)):
+        low = i
+        for x in range(i + 1, len(array)):
+            if array[x] < array[low]:
+                low = x
+        if array[i] > array[low]:
+            low_value = array[low]
+            array[low] = array[i]
+            array[i] = low_value
+    return array
+
 
 #--------------------------------------------------------------------------
 
@@ -58,11 +56,9 @@ for assn in assignments:
          due_date = (assn_due_chunked[0] + " " + assn_due_chunked[1] + " " + assn_due_chunked[2])
     assn['due_date'] = parser.parse(due_date)
 
-#Sort the assignment array based on due date comparison (Using Quicksort Algorithm)
+#Sort the assignment array based on due date comparison (Using Selection Sort
 sorted_assns = []
 for assn in assignments:
     pass
 
-
-
-print(quicksort([5, 2, 0, 6, 1, 3]))
+print(selection_sort([5, 2, 6, 0, 1, -50]))
